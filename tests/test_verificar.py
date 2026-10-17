@@ -21,7 +21,7 @@ sys.path.insert(0, str(SKILL / "scripts"))
 import verificar  # noqa: E402
 from proteger import literales_de_documento, proteger, restaurar  # noqa: E402
 
-V = verificar.Verificador(usar_nlp=False)
+V = verificar.Verificador()
 
 
 def ids(texto: str, perfil: str = "conceptos-api", modo: str = "estandar", **kw) -> list[str]:
@@ -219,7 +219,7 @@ class TestCLI(unittest.TestCase):
             ruta = f.name
         salida = io.StringIO()
         with redirect_stdout(salida):
-            codigo = verificar.main([ruta, "--sin-nlp", *args])
+            codigo = verificar.main([ruta, *args])
         Path(ruta).unlink()
         return codigo, salida.getvalue()
 

@@ -2,6 +2,12 @@
 
 Este archivo registra los cambios de las reglas, el glosario y el verificador. Las versiones siguen el formato `MAYOR.MENOR.PARCHE`.
 
+## Sin publicar
+
+### Cambios
+
+- El verificador ya no usa spaCy ni Stanza; se quitó `--sin-nlp`. Se quitaron los alias de `--perfil`. El JSON pierde la clave `analisis`.
+
 ## 0.1.0 — 17 de octubre de 2026
 
 ### Novedades

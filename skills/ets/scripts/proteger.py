@@ -7,16 +7,10 @@ Cada literal se reemplaza por un marcador de tres caracteres de uso privado
 de Unicode, que no coincide con ``\\w`` ni con la puntuación. Así las reglas
 no analizan los literales y las posiciones de la prosa no se mezclan con ellos.
 
-Solo usa la biblioteca estándar.
-
-Uso como programa, para depurar:
-
-    python3 proteger.py ARCHIVO
-"""
+Solo usa la biblioteca estándar."""
 from __future__ import annotations
 
 import re
-import sys
 from dataclasses import dataclass
 
 INICIO = ""
@@ -102,10 +96,8 @@ def proteger(texto: str) -> tuple[str, list[Literal]]:
 def restaurar(texto: str, literales: list[Literal]) -> str:
     """Devuelve los literales a su lugar."""
     def sustituir(m: re.Match[str]) -> str:
-        indice = ord(m.group(1)) - BASE
-        if 0 <= indice < len(literales):
-            return literales[indice].valor
-        return m.group(0)
+        lit = literal_de(m.group(1), literales)
+        return lit.valor if lit else m.group(0)
 
     # Un literal puede contener marcadores de pasos anteriores (por ejemplo,
     # una ruta que incluye una variable), así que se restaura hasta el final.
@@ -168,17 +160,3 @@ def literales_de_documento(texto: str) -> list[tuple[int, Literal]]:
     resultado.extend((numero, Literal("bloque", contenido)) for numero, contenido in bloques)
     return resultado
 
-
-def _main(argv: list[str]) -> int:
-    if len(argv) != 1:
-        print("Uso: python3 proteger.py ARCHIVO", file=sys.stderr)
-        return 2
-    with open(argv[0], encoding="utf-8") as f:
-        texto = f.read()
-    for numero, lit in literales_de_documento(texto):
-        print(f"{numero}: {lit.tipo}: {lit.valor}")
-    return 0
-
-
-if __name__ == "__main__":
-    sys.exit(_main(sys.argv[1:]))

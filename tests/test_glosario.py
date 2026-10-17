@@ -17,7 +17,7 @@ sys.path.insert(0, str(SKILL / "scripts"))
 import verificar  # noqa: E402
 
 GLOSARIO = verificar.cargar_yaml(SKILL / "references" / "glosario.yaml")
-V = verificar.Verificador(usar_nlp=False)
+V = verificar.Verificador()
 
 CAMPOS = {
     "id": str, "concepto": str, "preferido": str, "categoria": str, "patron": str,

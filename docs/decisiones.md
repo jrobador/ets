@@ -23,7 +23,7 @@ Estados posibles:
 | P1 | Longitud | Decidida en v0.1 | Avisos, nunca rechazos: 25 palabras en procedimientos, 30 en descripciones, sin máximo en interfaz. El código no cuenta. | Comparar los umbrales con el desempeño de lectores reales. |
 | P1 | Anglicismos | Decidida en v0.1 | Equivalente español si existe y es preciso; término inglés definido si es el nombre reconocido (`token`, `commit`, `endpoint`); sin híbridos verbales. | Pruebas de reconocimiento con desarrolladores de varios países. |
 | P1 | Modelo de diccionario | Decidida en v0.1 | Glosario conceptual en YAML con 99 entradas, esquema fijo y pruebas de coherencia. | Prototipo de exportación a TBX; historial de cambios por entrada. |
-| P2 | Automatización | Abierta | Verificador híbrido: reglas deterministas más análisis morfológico opcional con spaCy o Stanza. | Medir precisión y cobertura por regla en textos que no se usaron para escribir las reglas. |
+| P2 | Automatización | Abierta | Reglas deterministas con heurísticas; el análisis morfológico se agrega si una evaluación muestra que hace falta. | Medir precisión y cobertura por regla en textos que no se usaron para escribir las reglas. |
 | P2 | Traducción | Abierta | Sin evaluación en la versión 0.1. | Prueba ciega con poseditores, por dirección y por motor. |
 | P2 | LLM | Decidida en v0.1 | El modelo redacta y propone; el verificador y la revisión humana comprueban. La skill nunca certifica. | Evaluación externa de reescrituras con `evals/correr.py --reescrituras`. |
 | P2 | Gobernanza | Abierta | Reglas y glosario versionados en este repositorio, con cambios en `CHANGELOG.md`. | Definir quién aprueba cambios de reglas y con qué evidencia. |
@@ -59,5 +59,5 @@ El verificador se ejecutó sobre `SKILL.md`, todos los archivos de `references/`
 - Analiza línea por línea: una oración partida en dos líneas se cuenta como dos oraciones.
 - TER-08 (pronombres átonos), TER-07 (sujeto tácito) y VER-09 (modalidad) no se comprueban de forma automática.
 - La detección de imperativos depende de una lista de verbos frecuentes y de los verbos del glosario.
-- El análisis con spaCy y Stanza solo se usa para confirmar gerundios e infinitivos, y no se probó en esta versión porque ninguno estaba instalado en el entorno de desarrollo.
+- Los gerundios e infinitivos se detectan con heurísticas; no hay análisis morfológico.
 - Las métricas de `evals/` miden casos escritos junto con las reglas; no estiman la precisión sobre documentación real.

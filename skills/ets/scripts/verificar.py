@@ -10,14 +10,12 @@ Uso:
     python3 verificar.py ARCHIVO [--perfil procedimientos|conceptos-api|interfaz|notas]
                                  [--modo estandar|estricto] [--formato texto|json]
                                  [--original ARCHIVO] [--glosario ARCHIVO]
-                                 [--desactivar ID,ID] [--sin-nlp]
+                                 [--desactivar ID,ID]
 
 ARCHIVO puede ser «-» para leer de la entrada estándar.
 Código de salida: 0 sin errores, 1 con errores, 2 por un problema de uso.
 
-Solo requiere la biblioteca estándar de Python 3.10 o posterior. Si spaCy (con
-el modelo es_core_news_sm) o Stanza están instalados, los usa para confirmar
-gerundios e infinitivos; si no, usa heurísticas.
+Solo requiere la biblioteca estándar de Python 3.10 o posterior.
 """
 from __future__ import annotations
 
@@ -202,8 +200,7 @@ def _parsear_lista(lineas, i, sangria):
         contenido = lineas[i][1][1:].strip()
         sangria_item = sangria + 2
         i += 1
-        if CLAVE.match(contenido):
-            m = CLAVE.match(contenido)
+        if m := CLAVE.match(contenido):
             item: dict = {}
             clave, resto = m.group(1), m.group(2)
             if resto is None or resto.strip() == "":
@@ -306,69 +303,6 @@ def formas_verbo(infinitivo: str) -> list[str]:
 
 
 # ---------------------------------------------------------------------------
-# Análisis morfológico opcional
-# ---------------------------------------------------------------------------
-
-
-class Analizador:
-    """Envuelve spaCy o Stanza si están instalados. Si no, no hace nada."""
-
-    def __init__(self, usar: bool = True):
-        self.motor = None
-        self.nombre = "heurísticas"
-        self._cache: dict[str, dict[str, set[str]]] = {}
-        if not usar:
-            return
-        try:
-            import spacy  # type: ignore
-
-            self.motor = spacy.load("es_core_news_sm", disable=["ner", "parser"])
-            self.nombre = "spaCy"
-            return
-        except Exception:
-            self.motor = None
-        try:
-            import stanza  # type: ignore
-
-            self.motor = stanza.Pipeline(
-                "es", processors="tokenize,mwt,pos", verbose=False, download_method=None
-            )
-            self.nombre = "Stanza"
-        except Exception:
-            self.motor = None
-
-    @property
-    def activo(self) -> bool:
-        return self.motor is not None
-
-    def formas_verbales(self, texto: str) -> dict[str, set[str]] | None:
-        """Devuelve {forma: {palabras}} con forma en Ger, Inf, etc."""
-        if not self.activo:
-            return None
-        texto = MARCADOR.sub(" ", texto)
-        if texto in self._cache:
-            return self._cache[texto]
-        resultado: dict[str, set[str]] = {}
-        try:
-            if self.nombre == "spaCy":
-                for tok in self.motor(texto):
-                    for forma in tok.morph.get("VerbForm"):
-                        resultado.setdefault(forma, set()).add(tok.text.lower())
-            else:
-                doc = self.motor(texto)
-                for oracion in doc.sentences:
-                    for palabra in oracion.words:
-                        feats = palabra.feats or ""
-                        m = re.search(r"VerbForm=(\w+)", feats)
-                        if m:
-                            resultado.setdefault(m.group(1), set()).add(palabra.text.lower())
-        except Exception:
-            return None
-        self._cache[texto] = resultado
-        return resultado
-
-
-# ---------------------------------------------------------------------------
 # Estructuras
 # ---------------------------------------------------------------------------
 
@@ -412,17 +346,12 @@ class Resultado:
     perfil: str
     perfil_detectado: bool
     modo: str
-    analizador: str
     avisos: list[Aviso]
 
     @property
     def resumen(self) -> dict[str, int]:
         cuenta = Counter(a.nivel for a in self.avisos)
         return {n: cuenta.get(n, 0) for n in ORDEN_NIVEL}
-
-    @property
-    def errores(self) -> int:
-        return self.resumen["error"]
 
 
 # ---------------------------------------------------------------------------
@@ -433,17 +362,14 @@ class Resultado:
 class Verificador:
     def __init__(
         self,
-        ruta_reglas: Path | str = RUTA_REGLAS,
-        ruta_glosario: Path | str = RUTA_GLOSARIO,
         glosario_proyecto: Path | str | None = None,
-        usar_nlp: bool = True,
     ):
-        cfg = cargar_yaml(ruta_reglas)
+        cfg = cargar_yaml(RUTA_REGLAS)
         if not isinstance(cfg, dict):
-            raise ErrorYAML(f"{ruta_reglas}: se esperaba un mapa.")
+            raise ErrorYAML(f"{RUTA_REGLAS}: se esperaba un mapa.")
         self.cfg = cfg
         self.reglas: list[dict] = cfg["reglas"]
-        self.glosario: list[dict] = list(cargar_yaml(ruta_glosario) or [])
+        self.glosario: list[dict] = list(cargar_yaml(RUTA_GLOSARIO) or [])
         if glosario_proyecto:
             propio = {e["id"]: e for e in (cargar_yaml(glosario_proyecto) or [])}
             self.glosario = [propio.pop(e["id"], e) for e in self.glosario] + list(propio.values())
@@ -457,7 +383,6 @@ class Verificador:
         self.etiquetas_documentacion = {normalizar(p) for p in cfg.get("etiquetas_documentacion", [])}
         self.no_infinitivos = {normalizar(p) for p in cfg.get("no_infinitivos", [])}
         self.no_gerundios = {normalizar(p) for p in cfg.get("no_gerundios", [])}
-        self.analizador = Analizador(usar_nlp)
 
         self._regex = {}
         for regla in self.reglas:
@@ -771,7 +696,7 @@ class Verificador:
                                             sugerencia or regla.get("sugerencia", "")))
 
         avisos = self._depurar(avisos)
-        return Resultado(perfil_doc, detectado, modo, self.analizador.nombre, avisos)
+        return Resultado(perfil_doc, detectado, modo, avisos)
 
     @staticmethod
     def _aplica(regla: dict, perfil: str) -> bool:
@@ -914,12 +839,9 @@ class Verificador:
             candidatos.append((m, m.group(1)))
         if not candidatos:
             return []
-        formas = self.analizador.formas_verbales(u.texto)
         res = []
         for m, palabra in candidatos:
             if normalizar(palabra) in self.no_gerundios:
-                continue
-            if formas is not None and palabra.lower() not in formas.get("Ger", set()):
                 continue
             res.append((u.fragmento(m.start(), m.end()).lstrip(", "), "", ""))
         return res
@@ -1021,9 +943,6 @@ class Verificador:
             or not palabra.endswith(("ar", "er", "ir"))
         ):
             return []
-        formas = self.analizador.formas_verbales(u.texto)
-        if formas is not None and primera.group(0).lower() not in formas.get("Inf", set()):
-            return []
         return [(u.fragmento(primera.start(), primera.end()), "", "")]
 
     def _c_nivel_aviso(self, u: Unidad):
@@ -1120,11 +1039,6 @@ class Verificador:
 # Interfaz de línea de comandos
 # ---------------------------------------------------------------------------
 
-NOMBRES_NIVEL = {"error": "ERROR", "advertencia": "ADVERTENCIA", "sugerencia": "SUGERENCIA"}
-ALIAS_PERFIL = {"conceptos": "conceptos-api", "api": "conceptos-api", "notas-de-version": "notas",
-                "interfaz-y-mensajes": "interfaz"}
-
-
 def _leer(ruta: str) -> str:
     if ruta == "-":
         return sys.stdin.read()
@@ -1135,14 +1049,14 @@ def _leer(ruta: str) -> str:
 def formatear_texto(archivo: str, r: Resultado) -> str:
     salida = []
     for a in r.avisos:
-        linea = f"{archivo}:{a.linea}: {NOMBRES_NIVEL[a.nivel]} [{a.regla}] «{a.fragmento}» {a.mensaje}"
+        linea = f"{archivo}:{a.linea}: {a.nivel.upper()} [{a.regla}] «{a.fragmento}» {a.mensaje}"
         if a.sugerencia:
             linea += f" Sugerencia: {a.sugerencia}"
         salida.append(linea)
     resumen = r.resumen
     origen = "detectado" if r.perfil_detectado else "indicado"
     salida.append(
-        f"Perfil: {r.perfil} ({origen}). Modo: {r.modo}. Análisis: {r.analizador}. "
+        f"Perfil: {r.perfil} ({origen}). Modo: {r.modo}. "
         f"Errores: {resumen['error']}. Advertencias: {resumen['advertencia']}. "
         f"Sugerencias: {resumen['sugerencia']}."
     )
@@ -1157,7 +1071,6 @@ def formatear_json(archivo: str, r: Resultado) -> str:
         "perfil": r.perfil,
         "perfil_detectado": r.perfil_detectado,
         "modo": r.modo,
-        "analisis": r.analizador,
         "resumen": r.resumen,
         "avisos": [asdict(a) for a in r.avisos],
     }, ensure_ascii=False, indent=2)
@@ -1169,23 +1082,20 @@ def main(argv: list[str] | None = None) -> int:
         description=f"Verificador de la convención ETS v{VERSION}.",
     )
     parser.add_argument("archivo", help="Archivo de texto o Markdown, o «-» para la entrada estándar.")
-    parser.add_argument("--perfil", help="procedimientos, conceptos-api, interfaz o notas. Si falta, se detecta.")
+    parser.add_argument("--perfil", choices=PERFILES, help="procedimientos, conceptos-api, interfaz o notas. Si falta, se detecta.")
     parser.add_argument("--modo", default="estandar", choices=MODOS)
     parser.add_argument("--formato", default="texto", choices=("texto", "json"))
     parser.add_argument("--original", help="Texto original, para comprobar que los literales no cambiaron.")
     parser.add_argument("--glosario", help="Glosario del proyecto; sus entradas reemplazan a las del glosario base con el mismo id.")
     parser.add_argument("--desactivar", default="", help="IDs de reglas separados por comas.")
-    parser.add_argument("--sin-nlp", action="store_true", help="No usar spaCy ni Stanza aunque estén instalados.")
     args = parser.parse_args(argv)
 
-    perfil = ALIAS_PERFIL.get(args.perfil, args.perfil) if args.perfil else None
-    if perfil is not None and perfil not in PERFILES:
-        parser.error(f"perfil desconocido: {args.perfil}")
+    perfil = args.perfil
 
     try:
         texto = _leer(args.archivo)
         original = _leer(args.original) if args.original else None
-        verificador = Verificador(glosario_proyecto=args.glosario, usar_nlp=not args.sin_nlp)
+        verificador = Verificador(glosario_proyecto=args.glosario)
     except (OSError, ErrorYAML) as e:
         print(f"verificar.py: {e}", file=sys.stderr)
         return 2
@@ -1196,7 +1106,7 @@ def main(argv: list[str] | None = None) -> int:
         print(formatear_json(args.archivo, resultado))
     else:
         print(formatear_texto(args.archivo, resultado))
-    return 1 if resultado.errores else 0
+    return 1 if resultado.resumen["error"] else 0
 
 
 if __name__ == "__main__":

@@ -84,14 +84,12 @@ def evaluar_reescrituras(casos: list[dict], ruta: Path, v: verificar.Verificador
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Evalúa el verificador ETS con los casos de prueba.")
-    parser.add_argument("--casos", default=str(RAIZ / "evals" / "casos.jsonl"))
     parser.add_argument("--reescrituras", help="JSONL con {id, salida} para evaluar reescrituras.")
     parser.add_argument("--detalle", action="store_true", help="Muestra todos los casos.")
-    parser.add_argument("--nlp", action="store_true", help="Usa spaCy o Stanza si están instalados.")
     args = parser.parse_args()
 
-    casos = cargar(Path(args.casos))
-    v = verificar.Verificador(usar_nlp=args.nlp)
+    casos = cargar(RAIZ / "evals" / "casos.jsonl")
+    v = verificar.Verificador()
     if args.reescrituras:
         return evaluar_reescrituras(casos, Path(args.reescrituras), v)
     return evaluar_entradas(casos, v, args.detalle)

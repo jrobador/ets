@@ -93,7 +93,7 @@ La skill entrega el texto y, aparte, los avisos clasificados en error, advertenc
 
 ## Verificador
 
-El verificador necesita Python 3.10 o posterior y solo usa la biblioteca estándar. Si spaCy (con el modelo `es_core_news_sm`) o Stanza están instalados, el verificador los usa para confirmar gerundios e infinitivos.
+El verificador necesita Python 3.10 o posterior y solo usa la biblioteca estándar.
 
 ```
 python3 skills/ets/scripts/verificar.py guia.md
@@ -109,7 +109,6 @@ Otras opciones:
 - `--original ARCHIVO`: comprueba que el texto nuevo conserva el código, las rutas, las variables y las etiquetas del original.
 - `--glosario ARCHIVO`: añade el glosario del proyecto. Sus entradas reemplazan a las del glosario base con el mismo `id`.
 - `--desactivar ID,ID`: desactiva reglas, por ejemplo `VER-01` en un perfil regional con voseo.
-- `--sin-nlp`: no usa spaCy ni Stanza aunque estén instalados.
 
 Dentro de un archivo Markdown, puedes usar estos comentarios:
 
