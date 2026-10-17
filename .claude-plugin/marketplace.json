@@ -1,0 +1,17 @@
+{
+  "name": "ets",
+  "owner": {
+    "name": "Joaquin Robador"
+  },
+  "metadata": {
+    "description": "Español Técnico Simplificado para documentación e interfaces de software."
+  },
+  "plugins": [
+    {
+      "name": "ets",
+      "source": "./",
+      "description": "Redacta, reescribe y revisa documentación e interfaces de software en español técnico controlado.",
+      "version": "0.1.0"
+    }
+  ]
+}

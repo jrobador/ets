@@ -1,0 +1,12 @@
+{
+  "name": "ets",
+  "version": "0.1.0",
+  "description": "Español Técnico Simplificado: redacta, reescribe y revisa documentación e interfaces de software en un español controlado, claro e inequívoco para España y Latinoamérica.",
+  "author": {
+    "name": "Joaquin Robador"
+  },
+  "homepage": "https://github.com/jrobador/ets",
+  "repository": "https://github.com/jrobador/ets",
+  "license": "MIT AND CC-BY-4.0",
+  "keywords": ["español", "documentación", "lenguaje controlado", "redacción técnica", "localización"]
+}

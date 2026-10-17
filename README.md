@@ -35,7 +35,20 @@ docs/                            # informe de base y registro de decisiones
 
 ### Claude Code
 
-Copia la carpeta de la skill a la carpeta de skills de tu usuario:
+Instala la skill como plugin:
+
+```
+/plugin install ets --marketplace jrobador/ets
+```
+
+En versiones anteriores de Claude Code, usa dos comandos:
+
+```
+/plugin marketplace add jrobador/ets
+/plugin install ets@ets
+```
+
+También puedes copiar la carpeta de la skill a la carpeta de skills de tu usuario:
 
 ```
 cp -r skills/ets ~/.claude/skills/
