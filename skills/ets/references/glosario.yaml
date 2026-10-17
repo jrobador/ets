@@ -1,0 +1,1615 @@
+# Glosario ETS v0.1: entradas por concepto.
+#
+# Cada entrada describe un concepto, no una palabra. El verificador usa:
+#   - desaconsejados: formas que se marcan (sugerencia en modo estándar,
+#     advertencia en modo estricto).
+#   - patron: si tiene la forma "término + objeto | objeto", los desaconsejados
+#     solo se marcan cuando la oración contiene uno de esos objetos.
+#   - literales_ajenos: formas que se conservan si aparecen en una interfaz
+#     ajena. Escríbelas entre «» para que el verificador las proteja.
+#
+# Subconjunto de YAML admitido: lista de mapas, valores escalares entre
+# comillas dobles o listas en línea [a, "b c"]. Ver scripts/verificar.py.
+# Licencia: CC BY 4.0.
+
+# --- Equipos y dispositivos ---------------------------------------------
+
+- id: equipo
+  concepto: "Computadora personal o servidor en el que se instala o ejecuta software"
+  preferido: "equipo"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["PC", "servidor"]
+  desaconsejados: ["ordenador", "computadora", "computador"]
+  literales_ajenos: ["Este equipo", "Mi PC"]
+  restriccion: "Si «equipo» puede leerse como grupo de personas, usa el término específico: servidor, portátil o máquina virtual."
+  ejemplo: "Reinicia el equipo para completar la instalación."
+  contraejemplo: "Reinicia el ordenador para completar la instalación."
+  en: "computer"
+  perfiles: [todos]
+  nota_regional: "Ordenador (España), computadora (gran parte de Latinoamérica) y computador (Chile, Colombia) se entienden, pero marcan región."
+  version: "0.1"
+
+- id: telefono
+  concepto: "Teléfono móvil de una persona usuaria"
+  preferido: "teléfono"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["teléfono móvil", "dispositivo móvil"]
+  desaconsejados: ["celular", "el móvil", "tu móvil", "un móvil"]
+  literales_ajenos: []
+  restriccion: "Usa «dispositivo» solo si el texto también incluye tabletas u otros equipos."
+  ejemplo: "Escribe el código que recibiste en el teléfono."
+  contraejemplo: "Escribe el código que recibiste en tu celular."
+  en: "phone, mobile phone"
+  perfiles: [todos]
+  nota_regional: "Celular (Latinoamérica) y móvil (España) marcan región; «teléfono» se entiende en ambas."
+  version: "0.1"
+
+- id: dispositivo
+  concepto: "Cualquier aparato que ejecuta la aplicación: teléfono, tableta o equipo"
+  preferido: "dispositivo"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["device"]
+  literales_ajenos: []
+  restriccion: "No uses «dispositivo» si el texto se refiere solo a teléfonos."
+  ejemplo: "La sesión se cierra en todos los dispositivos."
+  contraejemplo: "La sesión se cierra en todos los devices."
+  en: "device"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+# --- Acciones de interfaz -------------------------------------------------
+
+- id: seleccionar
+  concepto: "Activar un elemento de la interfaz, sin importar el método de entrada"
+  preferido: "seleccionar"
+  categoria: verbo
+  patron: "seleccionar + botón | opción | casilla | menú | pestaña | elemento | archivo"
+  admitidos: ["elegir"]
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: "Si seleccionar y activar son operaciones distintas en la interfaz, nombra cada una por separado."
+  ejemplo: "Selecciona «Guardar cambios»."
+  contraejemplo: "Dale a «Guardar cambios»."
+  en: "select, choose"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: hacer-clic
+  concepto: "Pulsar el botón del ratón sobre un elemento"
+  preferido: "hacer clic"
+  categoria: locucion-verbal
+  patron: ""
+  admitidos: []
+  desaconsejados: ["cliquear", "clicar", "clickear", "dar clic", "darle clic", "pinchar"]
+  literales_ajenos: []
+  restriccion: "Úsalo solo cuando el método de entrada importa. En los demás casos, usa «seleccionar»."
+  ejemplo: "Haz clic con el botón derecho en la carpeta."
+  contraejemplo: "Pincha con el botón derecho en la carpeta."
+  en: "click"
+  perfiles: [procedimientos]
+  nota_regional: "Pinchar (España) y dar clic (México, Centroamérica) marcan región."
+  version: "0.1"
+
+- id: tocar
+  concepto: "Activar un elemento con el dedo en una pantalla táctil"
+  preferido: "tocar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["tapear", "hacer tap"]
+  literales_ajenos: []
+  restriccion: "Úsalo solo cuando el texto describe una pantalla táctil."
+  ejemplo: "Toca la notificación para abrir el mensaje."
+  contraejemplo: "Hace tap en la notificación para abrir el mensaje."
+  en: "tap"
+  perfiles: [procedimientos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: pulsar-tecla
+  concepto: "Presionar una tecla o una combinación de teclas"
+  preferido: "pulsar"
+  categoria: verbo
+  patron: "pulsar + tecla | teclas | combinación | Intro | Esc | Ctrl | Mayús"
+  admitidos: ["presionar"]
+  desaconsejados: ["apretar", "oprimir"]
+  literales_ajenos: []
+  restriccion: "No uses «pulsar» para elementos de la interfaz; usa «seleccionar»."
+  ejemplo: "Pulsa la tecla Esc para cerrar el panel."
+  contraejemplo: "Aprieta la tecla Esc para cerrar el panel."
+  en: "press"
+  perfiles: [procedimientos]
+  nota_regional: "Presionar es frecuente en Latinoamérica y se admite."
+  version: "0.1"
+
+- id: escribir
+  concepto: "Introducir texto con el teclado en un campo"
+  preferido: "escribir"
+  categoria: verbo
+  patron: "escribir + texto | nombre | contraseña | valor | dirección | código | correo | campo"
+  admitidos: []
+  desaconsejados: ["introducir", "ingresar", "digitar", "teclear"]
+  literales_ajenos: []
+  restriccion: "Pegar, importar y subir no equivalen a escribir; usa el verbo de cada acción."
+  ejemplo: "Escribe la contraseña y selecciona «Continuar»."
+  contraejemplo: "Ingresa la contraseña y selecciona «Continuar»."
+  en: "type, enter"
+  perfiles: [todos]
+  nota_regional: "Ingresar (Latinoamérica) e introducir (España) marcan región."
+  version: "0.1"
+
+- id: arrastrar
+  concepto: "Mover un elemento manteniendo pulsado el botón del ratón o el dedo"
+  preferido: "arrastrar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["dragear"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Arrastra el archivo a la zona de carga."
+  contraejemplo: "Dragea el archivo a la zona de carga."
+  en: "drag"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: guardar
+  concepto: "Conservar en almacenamiento los cambios de un archivo o documento"
+  preferido: "guardar"
+  categoria: verbo
+  patron: "guardar + archivo | cambios | documento | configuración | proyecto"
+  admitidos: []
+  desaconsejados: ["salvar"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Guarda los cambios antes de cerrar el editor."
+  contraejemplo: "Salva los cambios antes de cerrar el editor."
+  en: "save"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: eliminar
+  concepto: "Quitar un objeto de forma permanente del sistema"
+  preferido: "eliminar"
+  categoria: verbo
+  patron: ""
+  admitidos: ["borrar"]
+  desaconsejados: ["deletear", "suprimir"]
+  literales_ajenos: ["Suprimir"]
+  restriccion: "Si el objeto se puede recuperar desde una papelera, dilo de forma explícita."
+  ejemplo: "Elimina las claves que ya no usas."
+  contraejemplo: "Deletea las claves que ya no usas."
+  en: "delete"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: quitar
+  concepto: "Sacar un elemento de una lista o grupo sin eliminarlo del sistema"
+  preferido: "quitar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["remover"]
+  literales_ajenos: []
+  restriccion: "No uses «quitar» si el objeto deja de existir; en ese caso, usa «eliminar»."
+  ejemplo: "Quita a la persona del grupo de administración."
+  contraejemplo: "Remueve a la persona del grupo de administración."
+  en: "remove"
+  perfiles: [todos]
+  nota_regional: "Remover con este sentido es un calco frecuente en Latinoamérica."
+  version: "0.1"
+
+
+- id: pegar
+  concepto: "Insertar el contenido del portapapeles"
+  preferido: "pegar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: "No uses «escribir» si la persona pega el valor."
+  ejemplo: "Pega el token en el campo «Token de acceso»."
+  contraejemplo: ""
+  en: "paste"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: recargar-pagina
+  concepto: "Volver a cargar una página web en el navegador"
+  preferido: "recargar"
+  categoria: verbo
+  patron: "recargar + página | pestaña | vista"
+  admitidos: ["volver a cargar"]
+  desaconsejados: ["refrescar"]
+  literales_ajenos: []
+  restriccion: "No lo confundas con «actualizar», que instala una versión nueva."
+  ejemplo: "Recarga la página para ver los datos nuevos."
+  contraejemplo: "Refresca la página para ver los datos nuevos."
+  en: "reload, refresh"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: activar
+  concepto: "Poner en funcionamiento una opción o función"
+  preferido: "activar"
+  categoria: verbo
+  patron: ""
+  admitidos: ["habilitar"]
+  desaconsejados: ["enablear"]
+  literales_ajenos: []
+  restriccion: "Elige activar o habilitar por proyecto y no alternes."
+  ejemplo: "Activa la autenticación en dos pasos."
+  contraejemplo: "Enablea la autenticación en dos pasos."
+  en: "enable, turn on"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: desactivar
+  concepto: "Detener el funcionamiento de una opción o función"
+  preferido: "desactivar"
+  categoria: verbo
+  patron: ""
+  admitidos: ["deshabilitar"]
+  desaconsejados: ["disablear"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Desactiva las notificaciones por correo electrónico."
+  contraejemplo: "Disablea las notificaciones por correo electrónico."
+  en: "disable, turn off"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+
+# --- Elementos de interfaz -----------------------------------------------
+
+- id: archivo
+  concepto: "Unidad de datos con nombre en un sistema de archivos"
+  preferido: "archivo"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["fichero"]
+  literales_ajenos: ["Fichero"]
+  restriccion: "Si una interfaz ajena dice «Fichero», reproduce la etiqueta tal cual."
+  ejemplo: "Abre el archivo de configuración."
+  contraejemplo: "Abre el fichero de configuración."
+  en: "file"
+  perfiles: [todos]
+  nota_regional: "Fichero es frecuente en España."
+  version: "0.1"
+
+- id: carpeta
+  concepto: "Contenedor de archivos en un sistema de archivos"
+  preferido: "carpeta"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["directorio"]
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: "En documentación de línea de comandos se admite «directorio». Elige un término por documento y no alternes."
+  ejemplo: "Crea una carpeta para los registros."
+  contraejemplo: ""
+  en: "folder, directory"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: boton
+  concepto: "Control de la interfaz que ejecuta una acción al seleccionarlo"
+  preferido: "botón"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: "No hace falta escribir «el botón» si la etiqueta ya es clara: «Selecciona «Guardar»»."
+  ejemplo: "El botón «Enviar» se activa cuando completas el formulario."
+  contraejemplo: ""
+  en: "button"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: casilla
+  concepto: "Control que la persona marca o desmarca"
+  preferido: "casilla"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["casilla de verificación"]
+  desaconsejados: ["checkbox"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Marca la casilla «Recordar este dispositivo»."
+  contraejemplo: "Marca el checkbox «Recordar este dispositivo»."
+  en: "checkbox"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: pestana
+  concepto: "Sección seleccionable en la parte superior de una ventana o panel"
+  preferido: "pestaña"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["solapa"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Abre la pestaña «Seguridad»."
+  contraejemplo: "Abre la solapa «Seguridad»."
+  en: "tab"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: cuadro-de-dialogo
+  concepto: "Ventana pequeña que pide una decisión o un dato"
+  preferido: "cuadro de diálogo"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["diálogo"]
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "En el cuadro de diálogo, selecciona «Aceptar»."
+  contraejemplo: ""
+  en: "dialog box"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: ventana-emergente
+  concepto: "Ventana que se abre sobre la página sin que la persona la pida"
+  preferido: "ventana emergente"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["popup", "pop-up"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "El navegador puede bloquear la ventana emergente de inicio de sesión."
+  contraejemplo: "El navegador puede bloquear el popup de inicio de sesión."
+  en: "pop-up window"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: captura-de-pantalla
+  concepto: "Imagen de lo que muestra la pantalla"
+  preferido: "captura de pantalla"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["captura"]
+  desaconsejados: ["screenshot", "pantallazo"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Adjunta una captura de pantalla del error."
+  contraejemplo: "Adjunta un pantallazo del error."
+  en: "screenshot"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: vista-previa
+  concepto: "Representación del resultado antes de aplicarlo o publicarlo"
+  preferido: "vista previa"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["preview", "previsualización"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Revisa la vista previa antes de publicar."
+  contraejemplo: "Revisa el preview antes de publicar."
+  en: "preview"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: notificacion
+  concepto: "Mensaje breve que el sistema muestra fuera del flujo principal"
+  preferido: "notificación"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["aviso"]
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Recibirás una notificación cuando termine la exportación."
+  contraejemplo: ""
+  en: "notification"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: configuracion
+  concepto: "Conjunto de opciones que controlan el comportamiento de un programa"
+  preferido: "configuración"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["seteo", "seteos", "settings"]
+  literales_ajenos: ["Ajustes", "Preferencias"]
+  restriccion: "Si la interfaz dice «Ajustes» o «Preferencias», reproduce esa etiqueta."
+  ejemplo: "Abre «Configuración > Seguridad»."
+  contraejemplo: "Abre los settings de seguridad."
+  en: "settings, configuration"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: configurar
+  concepto: "Establecer las opciones de un programa o servicio"
+  preferido: "configurar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["setear"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Configura el tiempo de espera de la conexión."
+  contraejemplo: "Setea el tiempo de espera de la conexión."
+  en: "configure, set"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: valor-predeterminado
+  concepto: "Valor que se usa si nadie indica otro"
+  preferido: "valor predeterminado"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["valor por defecto"]
+  desaconsejados: ["valor default", "por default"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "El valor predeterminado es 30 segundos."
+  contraejemplo: "El valor default es 30 segundos."
+  en: "default value"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+# --- Cuentas, seguridad y acceso -----------------------------------------
+
+- id: iniciar-sesion
+  concepto: "Identificarse en un sistema para empezar a usarlo"
+  preferido: "iniciar sesión"
+  categoria: locucion-verbal
+  patron: ""
+  admitidos: ["acceder"]
+  desaconsejados: ["loguearse", "logearse", "loguear", "logear", "logueo", "hacer login"]
+  literales_ajenos: []
+  restriccion: "No lo confundas con «autenticar», que describe la comprobación que hace el sistema."
+  ejemplo: "Inicia sesión con tu cuenta de la organización."
+  contraejemplo: "Logueate con tu cuenta de la organización."
+  en: "sign in, log in"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: cerrar-sesion
+  concepto: "Terminar la sesión de una persona en un sistema"
+  preferido: "cerrar sesión"
+  categoria: locucion-verbal
+  patron: ""
+  admitidos: ["salir"]
+  desaconsejados: ["desloguearse", "deslogearse", "hacer logout"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Cierra sesión en los equipos compartidos."
+  contraejemplo: "Desloguéate en los equipos compartidos."
+  en: "sign out, log out"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: cuenta
+  concepto: "Registro de una persona o servicio que permite usar un sistema"
+  preferido: "cuenta"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: "Distingue «cuenta de usuario» de «cuenta de servicio» cuando el texto use las dos."
+  ejemplo: "Crea una cuenta de servicio para el proceso de integración."
+  contraejemplo: ""
+  en: "account"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: contrasena
+  concepto: "Secreto que una persona escribe para demostrar su identidad"
+  preferido: "contraseña"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["password", "clave de acceso"]
+  literales_ajenos: []
+  restriccion: "No uses «clave» para la contraseña; reserva «clave» para claves criptográficas y de API."
+  ejemplo: "La contraseña debe tener al menos 12 caracteres."
+  contraejemplo: "El password debe tener al menos 12 caracteres."
+  en: "password"
+  perfiles: [todos]
+  nota_regional: "Clave con el sentido de contraseña es frecuente en varios países de Latinoamérica."
+  version: "0.1"
+
+- id: clave-api
+  concepto: "Cadena secreta que identifica a una aplicación ante una API"
+  preferido: "clave de API"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["llave de API", "API key"]
+  literales_ajenos: []
+  restriccion: "Escribe el nombre del campo literal, como `api_key`, entre comillas invertidas."
+  ejemplo: "Guarda la clave de API en una variable de entorno."
+  contraejemplo: "Guarda la API key en una variable de entorno."
+  en: "API key"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: clave-criptografica
+  concepto: "Valor que un algoritmo usa para cifrar, descifrar o firmar"
+  preferido: "clave"
+  categoria: sustantivo
+  patron: "clave + privada | pública | cifrado | SSH | firma"
+  admitidos: []
+  desaconsejados: ["llave"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "No compartas la clave privada."
+  contraejemplo: "No compartas la llave privada."
+  en: "key"
+  perfiles: [todos]
+  nota_regional: "Llave con este sentido es frecuente en México."
+  version: "0.1"
+
+- id: token
+  concepto: "Cadena que el sistema emite para representar una credencial o una sesión"
+  preferido: "token"
+  categoria: sustantivo
+  patron: "token + acceso | autenticación | sesión | actualización"
+  admitidos: ["token de acceso"]
+  desaconsejados: ["ficha"]
+  literales_ajenos: []
+  restriccion: "Define el tipo de token la primera vez que aparece: de acceso, de actualización o de sesión."
+  ejemplo: "El token de acceso caduca a los 60 minutos."
+  contraejemplo: "La ficha de acceso caduca a los 60 minutos."
+  en: "token"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: revocar-credencial
+  concepto: "Invalidar una credencial antes de su vencimiento"
+  preferido: "revocar"
+  categoria: verbo
+  patron: "revocar + token | certificado | permiso | clave"
+  admitidos: []
+  desaconsejados: ["anular"]
+  literales_ajenos: []
+  restriccion: "No usar como sinónimo general de borrar."
+  ejemplo: "Revoca el token comprometido."
+  contraejemplo: "Revoca el archivo temporal."
+  en: "revoke"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: credenciales
+  concepto: "Datos que demuestran la identidad de una persona o un servicio"
+  preferido: "credenciales"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: "Si importa el tipo, nómbralo: contraseña, token, certificado o clave."
+  ejemplo: "Guarda las credenciales en el gestor de secretos."
+  contraejemplo: ""
+  en: "credentials"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: autenticar
+  concepto: "Comprobar la identidad de una persona o un servicio"
+  preferido: "autenticar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["autentificar"]
+  literales_ajenos: []
+  restriccion: "No lo uses para la acción de la persona; para eso, usa «iniciar sesión»."
+  ejemplo: "El servidor autentica cada solicitud con el token de acceso."
+  contraejemplo: "El servidor autentifica cada solicitud con el token de acceso."
+  en: "authenticate"
+  perfiles: [todos]
+  nota_regional: "Las dos formas son correctas; se elige una por consistencia."
+  version: "0.1"
+
+- id: autorizar
+  concepto: "Decidir si una identidad ya comprobada puede hacer una acción"
+  preferido: "autorizar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: "No lo uses como sinónimo de autenticar."
+  ejemplo: "La API autoriza la operación según el rol de la cuenta."
+  contraejemplo: ""
+  en: "authorize"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: conceder-permiso
+  concepto: "Dar a una cuenta la capacidad de hacer una acción"
+  preferido: "conceder"
+  categoria: verbo
+  patron: "conceder + permiso | permisos | acceso | rol"
+  admitidos: ["asignar"]
+  desaconsejados: ["dar"]
+  literales_ajenos: []
+  restriccion: "Usa «asignar» para roles si el producto lo llama así."
+  ejemplo: "Concede permiso de lectura al equipo de soporte."
+  contraejemplo: "Dale permisos de lectura al equipo de soporte."
+  en: "grant"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: permiso
+  concepto: "Capacidad concreta que una cuenta tiene sobre un recurso"
+  preferido: "permiso"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: "Distingue permiso (acción concreta) de rol (conjunto de permisos)."
+  ejemplo: "El rol de edición incluye el permiso de escritura."
+  contraejemplo: ""
+  en: "permission"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: cifrar
+  concepto: "Transformar datos para que solo los lea quien tiene la clave"
+  preferido: "cifrar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["encriptar"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "El servicio cifra los datos antes de guardarlos."
+  contraejemplo: "El servicio encripta los datos antes de guardarlos."
+  en: "encrypt"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: descifrar
+  concepto: "Recuperar los datos originales a partir de datos cifrados"
+  preferido: "descifrar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["desencriptar"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "La biblioteca descifra el mensaje con la clave privada."
+  contraejemplo: "La biblioteca desencripta el mensaje con la clave privada."
+  en: "decrypt"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: restablecer
+  concepto: "Devolver una contraseña, configuración o dispositivo a un estado inicial"
+  preferido: "restablecer"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["resetear", "reseteo"]
+  literales_ajenos: []
+  restriccion: "No lo confundas con «reiniciar», que apaga y vuelve a encender."
+  ejemplo: "Restablece la contraseña desde el enlace del correo electrónico."
+  contraejemplo: "Resetea la contraseña desde el enlace del correo electrónico."
+  en: "reset"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+# --- Sistema, servicios y procesos ---------------------------------------
+
+- id: ejecutar
+  concepto: "Poner en marcha código, un programa, un comando o una prueba"
+  preferido: "ejecutar"
+  categoria: verbo
+  patron: "ejecutar + comando | orden | programa | script | prueba | pruebas | consulta | código | tarea"
+  admitidos: []
+  desaconsejados: ["correr"]
+  literales_ajenos: []
+  restriccion: "No uses «ejecutar» como verbo universal: un servicio se inicia, una migración se aplica."
+  ejemplo: "Ejecuta las pruebas antes de crear el commit."
+  contraejemplo: "Corre las pruebas antes de crear el commit."
+  en: "run, execute"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: iniciar-servicio
+  concepto: "Poner en funcionamiento un servicio, servidor o contenedor"
+  preferido: "iniciar"
+  categoria: verbo
+  patron: "iniciar + servicio | servidor | contenedor | aplicación | base"
+  admitidos: []
+  desaconsejados: ["levantar", "arrancar", "ejecutar el servicio", "ejecutar el servidor"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Inicia el servidor de desarrollo."
+  contraejemplo: "Levanta el servidor de desarrollo."
+  en: "start"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: detener
+  concepto: "Hacer que un servicio o proceso deje de funcionar de forma ordenada"
+  preferido: "detener"
+  categoria: verbo
+  patron: ""
+  admitidos: ["parar"]
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Detén el contenedor antes de cambiar la imagen."
+  contraejemplo: ""
+  en: "stop"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: finalizar-proceso
+  concepto: "Forzar el cierre de un proceso que no responde"
+  preferido: "finalizar"
+  categoria: verbo
+  patron: "finalizar + proceso | tarea"
+  admitidos: ["forzar el cierre"]
+  desaconsejados: ["matar", "killear"]
+  literales_ajenos: []
+  restriccion: "Escribe el comando literal, como `kill`, entre comillas invertidas."
+  ejemplo: "Si el proceso no responde, finaliza el proceso con `kill -9`."
+  contraejemplo: "Si el proceso no responde, mata el proceso."
+  en: "kill, terminate"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: reiniciar
+  concepto: "Detener y volver a iniciar un equipo, servicio o aplicación"
+  preferido: "reiniciar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["rebootear"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Reinicia el servicio para aplicar la configuración."
+  contraejemplo: "Rebootea el servicio para aplicar la configuración."
+  en: "restart, reboot"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: cancelar
+  concepto: "Interrumpir una operación en curso antes de que termine"
+  preferido: "cancelar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["abortar"]
+  literales_ajenos: []
+  restriccion: "Si la operación deja datos a medias, dilo de forma explícita."
+  ejemplo: "Selecciona «Cancelar» para detener la importación."
+  contraejemplo: "Selecciona «Cancelar» para abortar la importación."
+  en: "cancel, abort"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: instalar
+  concepto: "Copiar y configurar un programa para que se pueda usar"
+  preferido: "instalar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: "Distingue descargar, instalar y configurar: son pasos distintos."
+  ejemplo: "Instala la versión 20 o posterior de Node.js."
+  contraejemplo: ""
+  en: "install"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: desinstalar
+  concepto: "Quitar un programa instalado del equipo"
+  preferido: "desinstalar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Desinstala la versión anterior antes de continuar."
+  contraejemplo: ""
+  en: "uninstall"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: actualizar
+  concepto: "Instalar una versión más reciente de un programa o dato"
+  preferido: "actualizar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["updatear", "upgradear", "hacer upgrade"]
+  literales_ajenos: []
+  restriccion: "No lo uses para recargar una página."
+  ejemplo: "Actualiza la CLI a la última versión."
+  contraejemplo: "Upgradea la CLI a la última versión."
+  en: "update, upgrade"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: actualizacion
+  concepto: "Versión nueva que reemplaza a una anterior"
+  preferido: "actualización"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["update", "upgrade"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "La actualización corrige dos errores de seguridad."
+  contraejemplo: "El update corrige dos errores de seguridad."
+  en: "update"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: descargar
+  concepto: "Transferir un archivo desde un servidor al equipo local"
+  preferido: "descargar"
+  categoria: verbo
+  patron: "descargar + archivo | aplicación | paquete | versión | instalador | actualización"
+  admitidos: []
+  desaconsejados: ["bajar"]
+  literales_ajenos: []
+  restriccion: "Descargar no implica instalar; nombra cada paso."
+  ejemplo: "Descarga el instalador desde la página de versiones."
+  contraejemplo: "Baja el instalador desde la página de versiones."
+  en: "download"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: subir
+  concepto: "Transferir un archivo desde el equipo local a un servidor"
+  preferido: "subir"
+  categoria: verbo
+  patron: ""
+  admitidos: ["cargar"]
+  desaconsejados: ["uploadear"]
+  literales_ajenos: []
+  restriccion: "No uses «cargar» con este sentido si en el mismo texto «cargar» significa leer datos en memoria."
+  ejemplo: "Sube el certificado en formato PEM."
+  contraejemplo: "Uploadea el certificado en formato PEM."
+  en: "upload"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: cargar
+  concepto: "Leer datos o un recurso para que el programa los use"
+  preferido: "cargar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "La aplicación carga la configuración al iniciarse."
+  contraejemplo: ""
+  en: "load"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: sincronizar
+  concepto: "Igualar el contenido de dos ubicaciones"
+  preferido: "sincronizar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["syncear"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "La aplicación sincroniza los archivos cada 5 minutos."
+  contraejemplo: "La aplicación syncea los archivos cada 5 minutos."
+  en: "sync"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: copia-de-seguridad
+  concepto: "Copia de datos que permite recuperarlos si se pierden"
+  preferido: "copia de seguridad"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["respaldo"]
+  desaconsejados: ["backup"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Crea una copia de seguridad de la base de datos antes de migrar."
+  contraejemplo: "Haz un backup de la base de datos antes de migrar."
+  en: "backup"
+  perfiles: [todos]
+  nota_regional: "Respaldo es frecuente en Latinoamérica y se admite."
+  version: "0.1"
+
+- id: restaurar
+  concepto: "Recuperar datos a partir de una copia de seguridad"
+  preferido: "restaurar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Restaura la base de datos desde la copia del lunes."
+  contraejemplo: ""
+  en: "restore"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: registro-de-eventos
+  concepto: "Archivo o flujo donde un programa anota lo que ocurre"
+  preferido: "registro"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["registro de eventos"]
+  desaconsejados: ["log", "logs"]
+  literales_ajenos: []
+  restriccion: "Si el texto también habla del alta de cuentas, usa «registro de eventos» para evitar confusión."
+  ejemplo: "Revisa el registro del servidor para ver la causa."
+  contraejemplo: "Revisa los logs del servidor para ver la causa."
+  en: "log"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: tiempo-de-espera
+  concepto: "Tiempo máximo que un programa espera una respuesta"
+  preferido: "tiempo de espera"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["timeout"]
+  literales_ajenos: []
+  restriccion: "Escribe el nombre del parámetro literal, como `timeout`, entre comillas invertidas."
+  ejemplo: "Se agotó el tiempo de espera de la conexión."
+  contraejemplo: "La conexión dio timeout."
+  en: "timeout"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: variable-de-entorno
+  concepto: "Valor con nombre que el sistema operativo pasa a los programas"
+  preferido: "variable de entorno"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["variable de ambiente"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Define la variable de entorno `DATABASE_URL`."
+  contraejemplo: "Define la variable de ambiente `DATABASE_URL`."
+  en: "environment variable"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: comando
+  concepto: "Instrucción que se escribe en una terminal"
+  preferido: "comando"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["orden"]
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: "Elige comando u orden por proyecto y no alternes."
+  ejemplo: "Ejecuta el comando `npm install`."
+  contraejemplo: ""
+  en: "command"
+  perfiles: [todos]
+  nota_regional: "Orden es más frecuente en España; comando se entiende en todas las regiones."
+  version: "0.1"
+
+- id: terminal
+  concepto: "Programa que permite escribir comandos"
+  preferido: "terminal"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["línea de comandos"]
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Abre una terminal en la carpeta del proyecto."
+  contraejemplo: ""
+  en: "terminal"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: aplicacion
+  concepto: "Programa que una persona usa para una tarea"
+  preferido: "aplicación"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["app"]
+  desaconsejados: ["aplicativo"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Cierra la aplicación y vuelve a abrirla."
+  contraejemplo: "Cierra el aplicativo y vuelve a abrirlo."
+  en: "application, app"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: funcion-del-producto
+  concepto: "Capacidad que un producto ofrece a quien lo usa"
+  preferido: "función"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["característica"]
+  desaconsejados: ["feature", "funcionalidad"]
+  literales_ajenos: []
+  restriccion: "En documentación de código, si «función» puede confundirse con una función del lenguaje, usa «característica»."
+  ejemplo: "La función de exportación genera archivos CSV."
+  contraejemplo: "La funcionalidad de exportación genera archivos CSV."
+  en: "feature"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: obsoleto
+  concepto: "Elemento que sigue disponible, pero se eliminará en una versión futura"
+  preferido: "obsoleto"
+  categoria: adjetivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["deprecado", "depreciado", "deprecated"]
+  literales_ajenos: []
+  restriccion: "Indica la versión en que se eliminará y la alternativa."
+  ejemplo: "El parámetro `limit` es obsoleto. Usa `page_size`."
+  contraejemplo: "El parámetro `limit` está deprecado."
+  en: "deprecated"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: admitir-formato
+  concepto: "Aceptar y procesar un formato, protocolo o versión"
+  preferido: "admitir"
+  categoria: verbo
+  patron: "admitir + formato | formatos | protocolo | versión | JSON | XML | CSV | YAML | HTTP | navegador | sistema | idioma"
+  admitidos: ["ser compatible con"]
+  desaconsejados: ["soportar"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "La API admite JSON y XML."
+  contraejemplo: "La API soporta JSON y XML."
+  en: "support"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: biblioteca
+  concepto: "Conjunto de código reutilizable que un programa importa"
+  preferido: "biblioteca"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["librería"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Instala la biblioteca cliente para Python."
+  contraejemplo: "Instala la librería cliente para Python."
+  en: "library"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: dependencia
+  concepto: "Paquete del que depende un proyecto para funcionar"
+  preferido: "dependencia"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Actualiza las dependencias del proyecto."
+  contraejemplo: ""
+  en: "dependency"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: compilar
+  concepto: "Transformar código fuente en un programa ejecutable o un paquete"
+  preferido: "compilar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["buildear", "hacer build", "hacer un build"]
+  literales_ajenos: []
+  restriccion: "No lo confundas con «desplegar» ni con «publicar»."
+  ejemplo: "Compila el proyecto en modo de producción."
+  contraejemplo: "Haz un build del proyecto en modo de producción."
+  en: "build, compile"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: depurar
+  concepto: "Buscar y corregir errores en un programa"
+  preferido: "depurar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["debuguear", "debugear", "hacer debug"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Depura la función con un punto de interrupción."
+  contraejemplo: "Debuguea la función con un punto de interrupción."
+  en: "debug"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: desplegar
+  concepto: "Poner una versión de una aplicación en un entorno donde se usa"
+  preferido: "desplegar"
+  categoria: verbo
+  patron: "desplegar + versión | aplicación | servicio | cambios | entorno"
+  admitidos: []
+  desaconsejados: ["deployar", "hacer deploy", "hacer un deploy"]
+  literales_ajenos: []
+  restriccion: "Distingue compilar (generar), publicar (poner a disposición) y desplegar (poner en un entorno)."
+  ejemplo: "Despliega la versión en el entorno de pruebas."
+  contraejemplo: "Haz un deploy en el entorno de pruebas."
+  en: "deploy"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: publicar-version
+  concepto: "Poner una versión de un paquete o programa a disposición de otras personas"
+  preferido: "publicar"
+  categoria: verbo
+  patron: "publicar + versión | paquete | biblioteca"
+  admitidos: []
+  desaconsejados: ["liberar", "releasear"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Publica la versión 2.0 en el registro de paquetes."
+  contraejemplo: "Libera la versión 2.0 en el registro de paquetes."
+  en: "release, publish"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: aplicar-migracion
+  concepto: "Ejecutar los cambios de esquema pendientes en una base de datos"
+  preferido: "aplicar"
+  categoria: verbo
+  patron: "aplicar + migración | migraciones | parche | cambios"
+  admitidos: []
+  desaconsejados: ["correr la migración", "correr las migraciones"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Aplica las migraciones pendientes antes de iniciar el servidor."
+  contraejemplo: "Corre las migraciones antes de iniciar el servidor."
+  en: "apply, run (a migration)"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: invalidar-cache
+  concepto: "Marcar como no válido el contenido guardado en caché"
+  preferido: "invalidar"
+  categoria: verbo
+  patron: "invalidar + caché | sesión"
+  admitidos: ["vaciar"]
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: "Usa «vaciar» solo si se elimina todo el contenido."
+  ejemplo: "Invalida la caché después de cambiar las plantillas."
+  contraejemplo: ""
+  en: "invalidate"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: cache
+  concepto: "Almacenamiento temporal de datos para acceder a ellos más rápido"
+  preferido: "caché"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: "Escribe «caché» con tilde en prosa; conserva `cache` en identificadores."
+  ejemplo: "La caché guarda las respuestas durante 10 minutos."
+  contraejemplo: ""
+  en: "cache"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: lanzar-excepcion
+  concepto: "Señalar un error en tiempo de ejecución mediante una excepción"
+  preferido: "lanzar"
+  categoria: verbo
+  patron: "lanzar + excepción | error"
+  admitidos: ["generar"]
+  desaconsejados: ["tirar"]
+  literales_ajenos: []
+  restriccion: "Úsalo solo para excepciones; para programas, usa «ejecutar»."
+  ejemplo: "El método lanza una excepción `ValueError` si el valor está vacío."
+  contraejemplo: "El método tira una excepción si el valor está vacío."
+  en: "throw, raise"
+  perfiles: [conceptos-api]
+  nota_regional: ""
+  version: "0.1"
+
+# --- Datos y API ---------------------------------------------------------
+
+- id: base-de-datos
+  concepto: "Sistema que guarda y consulta datos estructurados"
+  preferido: "base de datos"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["database"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "La base de datos guarda los pedidos de los últimos 90 días."
+  contraejemplo: "La database guarda los pedidos de los últimos 90 días."
+  en: "database"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: consulta
+  concepto: "Petición de datos a una base de datos o a un índice"
+  preferido: "consulta"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["query", "queries"]
+  literales_ajenos: []
+  restriccion: "Escribe los parámetros literales, como `query`, entre comillas invertidas."
+  ejemplo: "La consulta devuelve como máximo 100 filas."
+  contraejemplo: "La query devuelve como máximo 100 filas."
+  en: "query"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: solicitud
+  concepto: "Mensaje que un cliente envía a un servidor para pedir una operación"
+  preferido: "solicitud"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["petición"]
+  desaconsejados: ["request", "requerimiento"]
+  literales_ajenos: []
+  restriccion: "Elige solicitud o petición por proyecto y no alternes."
+  ejemplo: "Envía una solicitud `POST` al endpoint `/orders`."
+  contraejemplo: "Envía un request `POST` al endpoint `/orders`."
+  en: "request"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: respuesta
+  concepto: "Mensaje que el servidor devuelve a una solicitud"
+  preferido: "respuesta"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["response"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "La respuesta incluye el identificador del pedido."
+  contraejemplo: "El response incluye el identificador del pedido."
+  en: "response"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: endpoint
+  concepto: "Dirección de una API que acepta solicitudes para una operación concreta"
+  preferido: "endpoint"
+  categoria: sustantivo
+  patron: "endpoint + API | solicitud | solicitudes | método | servidor"
+  admitidos: ["punto de conexión"]
+  desaconsejados: ["punto final"]
+  literales_ajenos: []
+  restriccion: "Define el término la primera vez si el público no es técnico. No lo reemplaces por «URL»: un endpoint incluye el método."
+  ejemplo: "El endpoint `GET /users/{id}` devuelve un usuario."
+  contraejemplo: "El punto final `GET /users/{id}` de la API devuelve un usuario."
+  en: "endpoint"
+  perfiles: [conceptos-api]
+  nota_regional: ""
+  version: "0.1"
+
+- id: parametro
+  concepto: "Valor con nombre que una función o un endpoint recibe"
+  preferido: "parámetro"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: "Distingue parámetro (definición) de argumento (valor pasado) si el texto lo necesita."
+  ejemplo: "El parámetro `page_size` es opcional."
+  contraejemplo: ""
+  en: "parameter"
+  perfiles: [conceptos-api]
+  nota_regional: ""
+  version: "0.1"
+
+- id: devolver
+  concepto: "Entregar un resultado como salida de una función o de un endpoint"
+  preferido: "devolver"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["retornar"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "La función devuelve `None` si no encuentra el registro."
+  contraejemplo: "La función retorna `None` si no encuentra el registro."
+  en: "return"
+  perfiles: [conceptos-api]
+  nota_regional: ""
+  version: "0.1"
+
+- id: campo
+  concepto: "Elemento con nombre dentro de un formulario o de un objeto de datos"
+  preferido: "campo"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["propiedad"]
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: "Elige campo o propiedad por documento."
+  ejemplo: "El campo `email` es obligatorio."
+  contraejemplo: ""
+  en: "field"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+# --- Control de versiones ------------------------------------------------
+
+- id: repositorio
+  concepto: "Almacén de código con su historial de cambios"
+  preferido: "repositorio"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["repo"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Clona el repositorio en tu equipo."
+  contraejemplo: "Clona el repo en tu equipo."
+  en: "repository"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: clonar
+  concepto: "Copiar un repositorio remoto con todo su historial"
+  preferido: "clonar"
+  categoria: verbo
+  patron: ""
+  admitidos: []
+  desaconsejados: []
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Clona el repositorio con `git clone`."
+  contraejemplo: ""
+  en: "clone"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: commit
+  concepto: "Registro de un conjunto de cambios en el historial de Git"
+  preferido: "commit"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["confirmación"]
+  desaconsejados: ["comitear", "commitear", "comiteo"]
+  literales_ajenos: []
+  restriccion: "Para la acción, escribe «crear un commit». No traduzcas el comando `git commit`."
+  ejemplo: "Crea un commit con un mensaje que describa el cambio."
+  contraejemplo: "Comitea los cambios con un mensaje."
+  en: "commit"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: rama
+  concepto: "Línea de desarrollo independiente dentro de un repositorio"
+  preferido: "rama"
+  categoria: sustantivo
+  patron: ""
+  admitidos: []
+  desaconsejados: ["branch"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Crea una rama para cada cambio."
+  contraejemplo: "Crea un branch para cada cambio."
+  en: "branch"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: fusionar
+  concepto: "Integrar los cambios de una rama en otra"
+  preferido: "fusionar"
+  categoria: verbo
+  patron: "fusionar + rama | ramas | cambios | solicitud"
+  admitidos: ["integrar"]
+  desaconsejados: ["mergear", "hacer merge"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Fusiona la rama cuando las pruebas pasen."
+  contraejemplo: "Mergea la rama cuando las pruebas pasen."
+  en: "merge"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: enviar-cambios
+  concepto: "Transferir commits locales a un repositorio remoto"
+  preferido: "enviar"
+  categoria: verbo
+  patron: "enviar + cambios | commits | rama"
+  admitidos: []
+  desaconsejados: ["pushear", "hacer push", "empujar"]
+  literales_ajenos: []
+  restriccion: "Escribe el comando literal, `git push`, entre comillas invertidas."
+  ejemplo: "Envía la rama al repositorio remoto con `git push`."
+  contraejemplo: "Pushea la rama al repositorio remoto."
+  en: "push"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: pull-request
+  concepto: "Propuesta para fusionar una rama, con revisión previa"
+  preferido: "pull request"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["solicitud de incorporación de cambios"]
+  desaconsejados: ["petición de pull"]
+  literales_ajenos: []
+  restriccion: "Usa el nombre que muestra la plataforma: en GitLab, «merge request»."
+  ejemplo: "Abre una pull request contra la rama principal."
+  contraejemplo: "Abre una petición de pull contra la rama principal."
+  en: "pull request"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+# --- Web y comunicación --------------------------------------------------
+
+- id: correo-electronico
+  concepto: "Mensaje o servicio de correo en internet"
+  preferido: "correo electrónico"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["correo"]
+  desaconsejados: ["email", "e-mail", "mail"]
+  literales_ajenos: []
+  restriccion: "Conserva `email` cuando sea el nombre de un campo."
+  ejemplo: "Te enviamos un correo electrónico con el enlace de verificación."
+  contraejemplo: "Te enviamos un mail con el enlace de verificación."
+  en: "email"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: enlace
+  concepto: "Referencia que lleva a otra página o recurso"
+  preferido: "enlace"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["vínculo"]
+  desaconsejados: ["link"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Selecciona el enlace del correo electrónico para confirmar la cuenta."
+  contraejemplo: "Selecciona el link del correo electrónico para confirmar la cuenta."
+  en: "link"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: navegador
+  concepto: "Programa para ver páginas web"
+  preferido: "navegador"
+  categoria: sustantivo
+  patron: "navegador + página | web | sitio | consola | pestaña | extensión"
+  admitidos: []
+  desaconsejados: ["browser", "explorador"]
+  literales_ajenos: []
+  restriccion: ""
+  ejemplo: "Abre la consola del navegador."
+  contraejemplo: "Abre la consola del browser."
+  en: "browser"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"
+
+- id: sitio-web
+  concepto: "Conjunto de páginas web bajo un mismo dominio"
+  preferido: "sitio web"
+  categoria: sustantivo
+  patron: ""
+  admitidos: ["sitio"]
+  desaconsejados: ["website"]
+  literales_ajenos: []
+  restriccion: "No lo uses para una sola página; en ese caso, usa «página»."
+  ejemplo: "Publica la documentación en el sitio web del proyecto."
+  contraejemplo: "Publica la documentación en el website del proyecto."
+  en: "website"
+  perfiles: [todos]
+  nota_regional: ""
+  version: "0.1"

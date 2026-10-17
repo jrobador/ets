@@ -1,0 +1,345 @@
+# Reglas deterministas de ETS v0.1.
+#
+# Cada regla tiene:
+#   id          ID de la regla en references/ (TER-, VER-, ORA-, FOR-, PRO-, API-, INT-, NOT-).
+#   tipo        regex (patrón sobre la oración protegida) o funcion (control programado).
+#   patron      expresión regular de Python (solo tipo regex). Sin distinción de
+#               mayúsculas, salvo que mayusculas sea "exactas".
+#   funcion     nombre del control en verificar.py (solo tipo funcion).
+#   nivel       error, advertencia o sugerencia en modo estándar.
+#   nivel_estricto  nivel en modo estricto, si cambia.
+#   perfiles    procedimientos, conceptos-api, interfaz, notas o todos.
+#   mensaje     qué detecta.
+#   sugerencia  cómo corregirlo.
+#
+# Subconjunto de YAML admitido: ver cargar_yaml() en verificar.py.
+# Licencia: CC BY 4.0.
+
+version: "0.1"
+longitud_procedimientos: 25
+longitud_descripciones: 30
+
+# Líneas que empiezan con estas etiquetas seguidas de dos puntos no se analizan.
+# Sirven para los ejemplos incorrectos de la documentación.
+prefijos_ignorados: [Incorrecto, Antes, Contraejemplo, "Reescritura defectuosa", Ambiguo, "Reglas aplicadas"]
+
+# Etiquetas de la documentación de ETS que se quitan antes de analizar una
+# línea como etiqueta de interfaz (INT-02).
+etiquetas_documentacion: [Regla, "Por qué", Correcto, Excepciones, Verificable, Después, Original, Problema, "Reescritura correcta"]
+
+# No cuentan como mayúscula de título ni como identificador suelto.
+nombres_propios: [Claude, Code, Codex, Cursor, Gemini, Copilot, Python, Node, GitHub, GitLab, Git, Google, Microsoft, Apple, IBM, Red, Hat, Linux, Windows, macOS, iOS, iPadOS, iPhone, iPad, Android, Docker, Kubernetes, PostgreSQL, MySQL, JavaScript, TypeScript, España, Latinoamérica, América, Argentina, Uruguay, Paraguay, México, Chile, Colombia, Perú, Venezuela, ASD, RAE, ASALE, ISO, UNE, Vale, LanguageTool, Stanza, spaCy, Markdown, Unicode, JSON, YAML, Español, Técnico, Simplificado, Controlado, Simplified, Technical, English, Gobbi, Ruiz, Cascales, Bolonia, Limerick, Fundéu, FundéuRAE, ICU, MessageFormat, SSO, Ctrl, Esc, Intro, Mayús]
+
+# Verbos frecuentes en documentación de software. Se usan para reconocer
+# imperativos de tú y de usted y formas de voseo y de vosotros. Los verbos del
+# glosario se añaden de forma automática.
+verbos_frecuentes: [abrir, aceptar, acceder, activar, actualizar, adjuntar, agregar, añadir, aplicar, archivar, arrastrar, asegurar, asignar, autenticar, autorizar, avisar, borrar, buscar, cambiar, cancelar, cargar, cerrar, cifrar, clonar, comenzar, compartir, compilar, completar, comprobar, conceder, conectar, configurar, confirmar, consultar, continuar, copiar, crear, definir, deber, depurar, desactivar, descargar, descifrar, descomprimir, desconectar, deshacer, desinstalar, desplegar, detener, devolver, editar, ejecutar, elegir, eliminar, empezar, encontrar, enviar, escoger, escribir, especificar, esperar, establecer, evitar, expandir, exportar, filtrar, finalizar, firmar, fusionar, generar, guardar, habilitar, hacer, importar, incluir, indicar, iniciar, insertar, instalar, introducir, invalidar, leer, limpiar, mantener, marcar, modificar, mostrar, mover, necesitar, obtener, ocultar, omitir, ordenar, pegar, pedir, permitir, poder, poner, probar, programar, publicar, pulsar, quitar, recargar, recibir, recuperar, reemplazar, registrar, reiniciar, reintentar, renombrar, repetir, responder, restablecer, restaurar, revisar, revocar, salir, saber, seleccionar, sincronizar, solicitar, subir, sustituir, tener, tocar, usar, utilizar, validar, verificar, volver, querer]
+
+# Imperativos irregulares que no se deducen del infinitivo.
+imperativos_tu_irregulares: [haz, pon, ten, sal, ven, di, elige, escoge, pide, repite, sigue, consigue, cierra, vuelve, devuelve, resuelve, prueba, comprueba, mueve, muestra, encuentra, empieza, comienza, mantén, obtén, detén, recuerda, enciende, piensa, incluye, sustituye, construye, distribuye, despliega, establece, reconoce]
+imperativos_usted_irregulares: [haga, ponga, tenga, salga, venga, diga, vaya, elija, escoja, pida, repita, siga, consiga, cierre, vuelva, devuelva, resuelva, pruebe, compruebe, mueva, muestre, encuentre, empiece, comience, mantenga, obtenga, detenga, recuerde, encienda, piense, incluya, sustituya, construya, distribuya, despliegue, establezca, reconozca, asegúrese]
+
+# Palabras terminadas en -ar, -er o -ir que no son infinitivos.
+no_infinitivos: [primer, tercer, lugar, hogar, taller, mujer, ayer, alfiler, carácter, líder, máster, póster, súper, cáncer, mayor, menor, militar, popular, similar, particular, regular, solar, auxiliar, familiar, singular, titular, celular, modular, escolar, polar, nuclear, lunar, peculiar]
+
+# Palabras terminadas en -ando o -iendo que no son gerundios.
+no_gerundios: [cuando, comando, mando, bando, blando, ando, fernando, orlando, rolando, doctorando, graduando, nefando, venerando, estupendo, remiendo, dividendo, sustraendo, minuendo]
+
+reglas:
+  # --- Terminología y referentes -------------------------------------------
+  - id: TER-01
+    tipo: funcion
+    funcion: glosario
+    nivel: sugerencia
+    nivel_estricto: advertencia
+    perfiles: [todos]
+    mensaje: "Término desaconsejado en el glosario."
+    sugerencia: "Usa el término preferido del glosario."
+
+  - id: TER-02
+    tipo: regex
+    patron: '\b(?:des)?(?:logu|log|set|reset|reboot|click|cliqu|link|merg|push|build|debugu|debug|upgrad|updat|forward|track|crash|sync|drag|enabl|disabl|delet|upload|releas|kill|comit|commit)[eé](?:ar|as|a|á|an|amos|ado|ada|ados|adas|ando|é|ó|aron|e|es|en|o|arlo|arla|arlos|arlas|arse|ate|ame)\b|\bdeploy(?:ar|as|á|a|an|ado|ada|ados|adas|ando|é|ó|aron|e|o)\b|\bcustomiz\w+'
+    nivel: advertencia
+    perfiles: [todos]
+    mensaje: "Híbrido verbal con raíz inglesa."
+    sugerencia: "Usa el verbo español del glosario: iniciar sesión, desplegar, restablecer, fusionar, enviar, compilar, depurar."
+
+  - id: TER-03
+    tipo: regex
+    patron: '\b(?:da|dale|dales|darle|darles|den|dé)\s+(?:(?:los|el|un|unos)\s+)?(?:permisos?|acceso)\b|\b(?:pon|ponle|poner|pone)\s+(?:el|la|un|una)\s+(?:servidor|servicio|contenedor|base)\b|\b(?:haz|hacer|hace|hacé|hagas|haga)\s+(?:(?:un|el|una)\s+)?(?:deploy|push|merge|build|login|logout|backup|commit|despliegue|upgrade|reboot)\b'
+    nivel: advertencia
+    perfiles: [todos]
+    mensaje: "Verbo comodín con un objeto técnico."
+    sugerencia: "Usa el verbo de la acción: conceder, iniciar, instalar, desplegar, crear."
+
+  - id: TER-06
+    tipo: regex
+    patron: '\bse\s+(?:colg[óo]|cuelga|colgaba|tild[óo]|tilda|trab[óo]|traba|pet[óo]|peta|cay[óo])\b|\bpet[óo]\b'
+    nivel: sugerencia
+    perfiles: [todos]
+    mensaje: "Expresión coloquial para un estado técnico."
+    sugerencia: "Describe el estado: no responde, se cerró, dejó de funcionar."
+
+  - id: TER-10
+    tipo: funcion
+    funcion: su_ambiguo
+    nivel: sugerencia
+    nivel_estricto: advertencia
+    perfiles: [todos]
+    mensaje: "«su» puede referirse a varios sustantivos de la oración."
+    sugerencia: "Si hay más de un dueño posible, nombra al dueño: la clave del servicio."
+
+  # --- Verbos y modalidad ---------------------------------------------------
+  - id: VER-01
+    tipo: funcion
+    funcion: voseo
+    nivel: error
+    perfiles: [todos]
+    mensaje: "Forma de voseo en el perfil internacional."
+    sugerencia: "Usa el tuteo: selecciona, puedes, ábrelo."
+
+  - id: VER-02
+    tipo: funcion
+    funcion: vosotros
+    nivel: error
+    perfiles: [todos]
+    mensaje: "Forma de vosotros en el perfil internacional."
+    sugerencia: "Usa tú para una persona y ustedes para varias."
+
+  - id: VER-03
+    tipo: funcion
+    funcion: mezcla_tratamiento
+    nivel: error
+    perfiles: [todos]
+    mensaje: "El texto mezcla tú y usted."
+    sugerencia: "Usa un único tratamiento. El perfil base usa tú."
+
+  - id: VER-04
+    tipo: regex
+    patron: '(?<!\w)tú(?!\w)'
+    nivel: sugerencia
+    perfiles: [todos]
+    mensaje: "Pronombre tú explícito."
+    sugerencia: "Omite el pronombre: la forma del verbo ya indica la persona."
+
+  - id: VER-06
+    tipo: regex
+    patron: '\b\w{2,}(?:ará|erá|irá|arán|erán|irán)\b|\b(?:podr|tendr|habr|har|dir|saldr|querr|sabr|pondr|vendr|valdr|ser)án?\b'
+    nivel: sugerencia
+    perfiles: [conceptos-api]
+    mensaje: "Futuro en una descripción del sistema."
+    sugerencia: "Si describes un comportamiento general, usa el presente."
+
+  - id: VER-07
+    tipo: regex
+    patron: '\b(?:deberías|deberían|podrías|querrías|tendrías|convendría|convendrían|habría que|sería conveniente|sería recomendable|sería mejor)\b'
+    nivel: advertencia
+    perfiles: [todos]
+    mensaje: "Condicional que suaviza una instrucción."
+    sugerencia: "Usa el imperativo para instrucciones o debes para requisitos."
+
+  - id: VER-10
+    tipo: regex
+    patron: '\bse\s+(?:debe|deben|tiene que|tienen que|necesita|necesitan|ha de|han de)\b|\bhay que\b'
+    nivel: advertencia
+    perfiles: [todos]
+    mensaje: "Obligación sin agente identificable."
+    sugerencia: "Nombra quién actúa o usa el imperativo: Reinicia el servicio."
+
+  - id: VER-12
+    tipo: regex
+    patron: '\b(?:es|son|fue|fueron|será|serán|ha sido|han sido|sea|sean)\s+(?:\w+mente\s+)?(?:\w+(?:ado|ada|ados|adas|ido|ida|idos|idas)|(?:escrit|devuelt|abiert|hech|puest|cubiert|resuelt|vuelt)[oa]s?)\s+por\b'
+    nivel: sugerencia
+    perfiles: [todos]
+    mensaje: "Pasiva perifrástica con agente."
+    sugerencia: "Escribe la oración en activa: el agente como sujeto."
+
+  - id: VER-13
+    tipo: funcion
+    funcion: gerundio
+    nivel: advertencia
+    perfiles: [todos]
+    mensaje: "Gerundio de posterioridad o que encadena otra acción."
+    sugerencia: "Usa una oración nueva o «y»: Instala el paquete. Después, reinicia el servicio."
+
+  # --- Oraciones -----------------------------------------------------------
+  - id: ORA-02
+    tipo: funcion
+    funcion: condicion_despues
+    nivel: advertencia
+    perfiles: [procedimientos]
+    mensaje: "La condición aparece después de la acción."
+    sugerencia: "Escribe la condición al principio: Si…, haz…"
+
+  - id: ORA-03
+    tipo: funcion
+    funcion: longitud
+    nivel: advertencia
+    perfiles: [procedimientos]
+    mensaje: "Oración larga para un procedimiento."
+    sugerencia: "Si puedes dividirla sin perder información, divídela."
+
+  - id: ORA-04
+    tipo: funcion
+    funcion: longitud
+    nivel: advertencia
+    perfiles: [conceptos-api, notas]
+    mensaje: "Oración descriptiva larga."
+    sugerencia: "Si puedes dividirla sin perder información, divídela."
+
+  - id: ORA-07
+    tipo: regex
+    patron: '\b(?:realiz\w*|efectu\w*|efectú\w*|llev\w*\s+a\s+cabo)\s+(?:la|el|las|los|una|un|esta|este)\s+\w+(?:ción|ciones|sión|siones|miento|mientos|aje|ajes)\b'
+    nivel: advertencia
+    perfiles: [todos]
+    mensaje: "Verbo de apoyo con nominalización."
+    sugerencia: "Usa el verbo de la acción: Actualiza, Configura, Instala."
+
+  - id: ORA-08
+    tipo: funcion
+    funcion: cadena_de
+    nivel: advertencia
+    perfiles: [todos]
+    mensaje: "Tres o más «de» encadenados."
+    sugerencia: "Reformula con un verbo o con un término del glosario."
+
+  - id: ORA-11
+    tipo: regex
+    patron: '\b\w+[oa]s?/[oa]s?\b|\b\w+@s?(?!\w)|\b\w+xs\b|\b(?:todxs|todes|elles|lxs|nosotrxs|usuarixs|usuaries)\b|\b\w+[oa]\([oa]s?\)'
+    nivel: sugerencia
+    perfiles: [todos]
+    mensaje: "Marca de género alternativa en el perfil base."
+    sugerencia: "Reformula sin persona o en segunda persona: Te damos la bienvenida."
+
+  - id: ORA-12
+    tipo: regex
+    patron: '(?<!\w)(?:el/la|la/el|los/las|las/los|un/una|una/un)(?!\w)'
+    nivel: advertencia
+    perfiles: [todos]
+    mensaje: "Artículo doble en una plantilla."
+    sugerencia: "Escribe una cadena completa por caso o una estructura sin artículo variable."
+
+  # --- Formato -------------------------------------------------------------
+  - id: FOR-01
+    tipo: funcion
+    funcion: mayusculas_titulo
+    nivel: advertencia
+    perfiles: [todos]
+    mensaje: "Mayúsculas de título en un encabezado."
+    sugerencia: "Escribe con mayúscula solo la primera palabra y los nombres propios."
+
+  - id: FOR-02
+    tipo: funcion
+    funcion: signos_apertura
+    nivel: advertencia
+    perfiles: [todos]
+    mensaje: "Falta el signo de apertura."
+    sugerencia: "Escribe ¿ o ¡ al principio de la pregunta o la exclamación."
+
+  - id: FOR-04
+    tipo: funcion
+    funcion: ruta_menu
+    nivel: sugerencia
+    perfiles: [todos]
+    mensaje: "Separador no estándar en una ruta de menú."
+    sugerencia: "Escribe la ruta dentro de un par de comillas con « > »: «Configuración > Seguridad»."
+
+  - id: FOR-05
+    tipo: funcion
+    funcion: identificador_suelto
+    nivel: sugerencia
+    perfiles: [todos]
+    mensaje: "Identificador fuera de comillas invertidas."
+    sugerencia: "Escribe el identificador entre comillas invertidas."
+
+  - id: FOR-06
+    tipo: funcion
+    funcion: literales_original
+    nivel: error
+    perfiles: [todos]
+    mensaje: "Un literal del original falta o cambió."
+    sugerencia: "Copia el literal exacto del original."
+
+  - id: FOR-07
+    tipo: regex
+    patron: '(?<![\w.,])\d+(?:[.,]\d+)?(?:KiB|MiB|GiB|TiB|KB|kB|MB|GB|TB|PB|Kb|Mb|Gb|kbps|Mbps|Gbps|bits?|ms|µs|ns|min|kHz|MHz|GHz|Hz|px|dpi|ppp|°C|°F|mAh|km|cm|mm|kg|s|h|B|m|g|V|W)(?!\w)'
+    mayusculas: exactas
+    nivel: error
+    perfiles: [todos]
+    mensaje: "Cifra pegada al símbolo de unidad."
+    sugerencia: "Separa la cifra y el símbolo con un espacio: 512 MB, 30 s."
+
+  - id: FOR-08
+    tipo: regex
+    patron: '(?<![\w.,])\d+(?:[.,]\d+)?\s+(?:KBs|MBs|GBs|TBs|kbs|mbs|gbs|segs?|mins|hrs|kgs|kms|mts)(?!\w)|(?<![\w.,])\d+(?:[.,]\d+)?\s+(?:min|seg|hr|h|s)\.(?=\s+[a-záéíóúñ])'
+    mayusculas: exactas
+    nivel: advertencia
+    perfiles: [todos]
+    mensaje: "Símbolo de unidad con plural, punto o abreviatura no normalizada."
+    sugerencia: "Usa el símbolo invariable y sin punto: 20 GB, 5 min, 10 s."
+
+  - id: FOR-10
+    tipo: regex
+    patron: '(?<![\w.,])\d{1,3}(?:[.,]\d{3})+(?!\w|[.,]\d)'
+    nivel: advertencia
+    perfiles: [todos]
+    mensaje: "Punto o coma como separador de miles."
+    sugerencia: "Agrupa con un espacio (10 000) o no agrupes. El punto y la coma se leen como decimales en algunos países."
+
+  - id: FOR-11
+    tipo: regex
+    patron: '(?<![\w/])\d{1,2}/\d{1,2}/\d{2,4}(?![\w/])|(?<![\w-])\d{1,2}-\d{1,2}-\d{4}(?![\w-])'
+    nivel: advertencia
+    perfiles: [todos]
+    mensaje: "Fecha numérica ambigua."
+    sugerencia: "Escribe el nombre del mes (3 de abril de 2026) o usa ISO 8601 en datos (2026-04-03)."
+
+  # --- Procedimientos ------------------------------------------------------
+  - id: PRO-02
+    tipo: funcion
+    funcion: paso_infinitivo
+    nivel: advertencia
+    perfiles: [procedimientos]
+    mensaje: "Paso numerado en infinitivo."
+    sugerencia: "Escribe el paso en imperativo de tú: Abre, Selecciona, Copia."
+
+  - id: PRO-07
+    tipo: funcion
+    funcion: nivel_aviso
+    nivel: sugerencia
+    perfiles: [todos]
+    mensaje: "Etiqueta de aviso fuera de los tres niveles."
+    sugerencia: "Usa Advertencia, Importante o Nota según la función del aviso."
+
+  - id: PRO-08
+    tipo: regex
+    patron: '\bse\s+(?:recomienda|recomiendan|aconseja|aconsejan|sugiere)\b'
+    nivel: advertencia
+    perfiles: [procedimientos]
+    mensaje: "Recomendación impersonal en un procedimiento."
+    sugerencia: "Usa el imperativo o explica la consecuencia."
+
+  # --- Interfaz y mensajes -------------------------------------------------
+  - id: INT-02
+    tipo: funcion
+    funcion: mayusculas_etiqueta
+    nivel: advertencia
+    perfiles: [interfaz]
+    mensaje: "Mayúsculas de título en una etiqueta."
+    sugerencia: "Escribe con mayúscula solo la primera palabra y los nombres propios."
+
+  - id: INT-05
+    tipo: regex
+    patron: '\b(?:fatal|fatales|ilegal|ilegales|abortar|abortó|abortada|abortado|catastrófic[oa]s?|inválid[oa]s?)\b'
+    nivel: sugerencia
+    perfiles: [interfaz]
+    mensaje: "Término alarmista o técnico en un mensaje para personas."
+    sugerencia: "Usa un término neutro: no válido, no se pudo completar, cancelar."
+
+  - id: INT-06
+    tipo: regex
+    patron: '\w\((?:s|es)\)(?!\w)'
+    nivel: advertencia
+    perfiles: [todos]
+    mensaje: "Plural con paréntesis."
+    sugerencia: "Escribe una cadena completa para cada forma de plural."

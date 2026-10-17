@@ -1,0 +1,24 @@
+ETS: Español Técnico Simplificado
+Copyright (c) 2026 Joaquin Robador
+
+Las reglas, el glosario, los ejemplos, los casos de evaluación y la
+documentación de este repositorio se publican con la licencia Creative Commons
+Atribución 4.0 Internacional (CC BY 4.0). Esto incluye:
+
+- skills/ets/SKILL.md
+- skills/ets/references/ (archivos .md y glosario.yaml)
+- skills/ets/scripts/reglas.yaml
+- evals/casos.jsonl y evals/README.md
+- README.md, CHANGELOG.md y docs/decisiones.md
+
+Puedes copiar, redistribuir, adaptar y usar este material con cualquier
+finalidad, incluso comercial, si indicas la autoría, enlazas la licencia e
+indicas si hiciste cambios.
+
+Resumen de la licencia: https://creativecommons.org/licenses/by/4.0/deed.es
+Texto legal completo: https://creativecommons.org/licenses/by/4.0/legalcode.es
+
+docs/informe-base.md es un informe de investigación que cita y resume fuentes
+de terceros. Las obras citadas conservan sus propias licencias y derechos.
+
+El código (.py) se publica con la licencia MIT: ver LICENSE-codigo.
